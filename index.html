@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>사업비 정산 지원 포털</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-dark:   #0C447C;
+      --blue-main:   #185FA5;
+      --blue-mid:    #378ADD;
+      --blue-light:  #E6F1FB;
+      --blue-text:   #0C447C;
+      --green-light: #EAF3DE;
+      --green-text:  #3B6D11;
+      --gray-bg:     #F5F6F8;
+      --gray-line:   #E2E4E8;
+      --gray-text:   #6B7280;
+      --text-main:   #1A1D23;
+      --text-sub:    #4B5563;
+      --white:       #FFFFFF;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--gray-bg);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+
+    /* ── 헤더 ── */
+    header {
+      background: var(--blue-dark);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: -0.3px;
+    }
+    .logo i { font-size: 20px; opacity: 0.85; }
+    .header-date {
+      color: rgba(255,255,255,0.55);
+      font-size: 12px;
+    }
+
+    /* ── 히어로 ── */
+    .hero {
+      background: linear-gradient(160deg, var(--blue-main) 0%, var(--blue-dark) 100%);
+      padding: 3.5rem 2rem 3rem;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.9);
+      font-size: 11px;
+      letter-spacing: 0.8px;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+    }
+    .hero h1 {
+      color: #fff;
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1.45;
+      margin-bottom: 12px;
+    }
+    .hero p {
+      color: rgba(255,255,255,0.72);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    /* ── 레이아웃 ── */
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ── 카드 ── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--gray-line);
+      border-radius: 14px;
+      padding: 1.5rem;
+    }
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-text);
+      margin-bottom: 14px;
+    }
+    .card-title i { font-size: 16px; }
+
+    /* ── CTA 버튼 ── */
+    .cta-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 15px;
+      background: var(--blue-main);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .cta-btn:hover  { background: var(--blue-dark); }
+    .cta-btn:active { transform: scale(0.98); }
+    .cta-btn i { font-size: 18px; }
+
+    /* ── 정보 그리드 ── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .info-item {
+      background: var(--gray-bg);
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+    .info-label {
+      font-size: 11px;
+      color: var(--gray-text);
+      margin-bottom: 4px;
+    }
+    .info-value {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-main);
+    }
+
+    /* ── 절차 ── */
+    .process { display: flex; flex-direction: column; }
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 10px 0;
+      position: relative;
+    }
+    .step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 42px;
+      bottom: 0;
+      width: 1px;
+      background: var(--gray-line);
+    }
+    .step-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-icon.blue { background: var(--blue-light); }
+    .step-icon.blue i { color: var(--blue-main); font-size: 16px; }
+    .step-icon.green { background: var(--green-light); }
+    .step-icon.green i { color: var(--green-text); font-size: 16px; }
+    .step-body { padding-top: 6px; }
+    .step-body strong { display: block; font-size: 14px; font-weight: 500; margin-bottom: 2px; }
+    .step-body span { font-size: 12px; color: var(--gray-text); }
+
+    /* ── FAQ ── */
+    .faq-item {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-line);
+    }
+    .faq-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .faq-q {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+    .faq-badge {
+      flex-shrink: 0;
+      background: var(--blue-light);
+      color: var(--blue-text);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 5px;
+      margin-top: 1px;
+    }
+    .faq-update {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: var(--gray-text);
+      margin-top: 12px;
+    }
+    .faq-update i { font-size: 13px; }
+
+    /* ── 안내 배너 ── */
+    .notice {
+      background: var(--blue-light);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .notice i { color: var(--blue-main); font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .notice p { font-size: 13px; color: var(--blue-text); line-height: 1.7; }
+
+    /* ── 푸터 ── */
+    footer {
+      background: var(--blue-dark);
+      padding: 2rem;
+      text-align: center;
+    }
+    footer p {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      line-height: 2;
+    }
+    footer a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+    }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── 반응형 ── */
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 21px; }
+      .info-grid { grid-template-columns: 1fr; }
+      header { padding: 0 1rem; }
+      .hero { padding: 2.5rem 1.25rem 2.5rem; }
+      .container { padding: 1.25rem 1rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 헤더 -->
+  <header>
+    <div class="logo">
+      <i class="ti ti-building"></i>
+      사업비 정산 지원 포털
+    </div>
+    <div class="header-date" id="header-date"></div>
+  </header>
+
+  <!-- 히어로 -->
+  <section class="hero">
+    <div class="hero-badge">사업비 정산 지침 문의 접수</div>
+    <h1>정산 관련 지침 문의사항을<br>빠르고 체계적으로 접수하세요</h1>
+    <p>접수된 문의는 담당자 검토 후<br>영업일 기준 2일 이내 답변드립니다</p>
+  </section>
+
+  <!-- 본문 -->
+  <main class="container">
+
+    <!-- 문의 접수 버튼 -->
+    <div class="card">
+      <div class="card-title">
+        <i class="ti ti-clipboard-text"></i>
+        문의 접수
+      </div>
+      <!--
+        ★ 구글 폼 URL을 아래 href="" 안에 붙여넣으세요.
+           예) href="https://forms.gle/xxxxxxxxxxxxx"
+      -->
+      <a class="cta-btn" href="https://forms.gle/여기에구글폼URL입력" target="_blank" rel="noopener">
+        <i class="ti ti-external-link"></i>
+        문의 접수 바로가기 (구글 폼)
+      </a>
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label">문의 접수 시간</div>
+          <div class="info-value">평일 09:00 ~ 18:00</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">평균 답변 소요</div>
+          <div class="info-value">영업일 2일 이내</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">답변 방식</div>
+          <div class="info-value">이메일 및 공지사항</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">문의 유형</div>
+          <div class="info-value">지침·정산·서식 등</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 처리 절차 -->
+    <div class="card">
+      <div class="card-title">
+        <i class="ti ti-route"></i>
+        처리 절차
+      </div>
+      <div class="process">
+        <div class="step">
+          <div class="step-icon blue"><i class="ti ti-pencil"></i></div>
+          <div class="step-body">
+            <strong>문의 접수</strong>
+            <span>구글 폼 작성 후 제출 — 접수번호 자동 부여</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-icon blue"><i class="ti ti-search"></i></div>
+          <div class="step-body">
+            <strong>지침 검토</strong>
+            <span>담당자 지침 대사 및 답변 초안 작성</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-icon blue"><i class="ti ti-mail"></i></div>
+          <div class="step-body">
+            <strong>답변 발송</strong>
+            <span>접수 시 기재한 이메일로 답변 안내</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-icon green"><i class="ti ti-file-text"></i></div>
+          <div class="step-body">
+            <strong>FAQ 반영</strong>
+            <span>유사 문의는 아래 FAQ에 취합하여 공개</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="card">
+      <div class="card-title">
+        <i class="ti ti-help-circle"></i>
+        자주 묻는 질문 (FAQ)
+      </div>
+
+      <!-- ★ FAQ 항목은 아래를 복사·붙여넣기하여 추가하세요 -->
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="faq-badge">Q</span>
+          출장비 영수증 분실 시 처리 방법은 무엇인가요?
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="faq-badge">Q</span>
+          식대 정산 한도 기준이 어떻게 되나요?
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="faq-badge">Q</span>
+          전년도 사업비 이월이 가능한지요?
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">
+          <span class="faq-badge">Q</span>
+          간접비 산정 기준과 계상 방법을 알고 싶습니다.
+        </div>
+      </div>
+
+      <div class="faq-update">
+        <i class="ti ti-refresh"></i>
+        마지막 업데이트: <span id="faq-date"></span>
+      </div>
+    </div>
+
+    <!-- 안내 배너 -->
+    <div class="notice">
+      <i class="ti ti-info-circle"></i>
+      <p>
+        동일한 문의가 반복되면 위 FAQ에 정리하여 공개합니다.<br>
+        문의 전 FAQ를 먼저 확인하시면 더 빠른 해결이 가능합니다.
+      </p>
+    </div>
+
+  </main>
+
+  <!-- 푸터 -->
+  <footer>
+    <p>
+      사업비 정산 지원팀<br>
+      <!-- ★ 아래 이메일 주소를 실제 담당자 이메일로 변경하세요 -->
+      담당자 이메일: <a href="mailto:budget@example.go.kr">budget@example.go.kr</a><br>
+      본 시스템은 내부 업무용입니다
+    </p>
+  </footer>
+
+  <script>
+    // 오늘 날짜 표시
+    const today = new Date();
+    const opts = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' };
+    document.getElementById('header-date').textContent = today.toLocaleDateString('ko-KR', opts);
+    document.getElementById('faq-date').textContent = today.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
+  </script>
+
+</body>
+</html>
